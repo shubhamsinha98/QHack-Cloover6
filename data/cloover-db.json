@@ -1,0 +1,438 @@
+{
+  "users": [
+    {
+      "id": "user-11dac8bf-c7c5-4e7d-80bf-8121e4775d18",
+      "name": "Alexx",
+      "organisation": "Sun",
+      "products": [
+        "Solar"
+      ],
+      "inventory": {
+        "Solar": {
+          "availability": "100",
+          "timeline": "1"
+        }
+      },
+      "customers": []
+    },
+    {
+      "id": "user-959d8b4a-a9ff-4f69-b4eb-23488dfea3d5",
+      "name": "Alex",
+      "organisation": "Sun",
+      "products": [
+        "Solar"
+      ],
+      "inventory": {
+        "Solar": {
+          "availability": "100",
+          "timeline": "2"
+        }
+      },
+      "customers": [
+        {
+          "id": "customer-1775676109787",
+          "customerCode": "CLV-1SLEK3",
+          "address": "N6",
+          "postcode": "68161",
+          "productInterest": "Solar panels",
+          "householdSize": "3-4 people",
+          "houseBuildYear": "",
+          "existingAssets": "",
+          "monthlyEnergyBill": "100",
+          "budgetSignal": "",
+          "state": "",
+          "houseType": "",
+          "roofType": "",
+          "floors": "",
+          "electricityUsageTime": "",
+          "isOwner": null,
+          "roofDirection": "",
+          "existingHeating": "",
+          "briefing": {
+            "market_context": {
+              "urgency_level": "Urgent",
+              "urgency_summary": "Energy prices are expected to rise due to increasing regulatory pressure on carbon pricing.",
+              "energy_price_trend": "Local energy prices are increasing as Germany invests in transition to renewable energy.",
+              "price_projection": {
+                "current_annual_cost_eur": 1726,
+                "year_2_annual_cost_eur": 1898,
+                "year_5_annual_cost_eur": 2163,
+                "year_10_annual_cost_eur": 2608,
+                "do_nothing_cost_increase_eur": 882
+              },
+              "regulations": [
+                {
+                  "name": "GEG 65% renewable heating rule",
+                  "timeline": "Effective from 2024",
+                  "impact": "Requires 65% of new heating systems to use renewable energy starting 2024.",
+                  "estimated_customer_savings_eur": 400
+                }
+              ],
+              "subsidies": [
+                {
+                  "name": "KfW 270",
+                  "amount": "EUR 7,500 grant",
+                  "estimated_customer_benefit_eur": 7500,
+                  "eligibility_fit": "High - applicable for installation of solar panels",
+                  "note": "Reduces initial investment cost."
+                }
+              ],
+              "broader_trends": [
+                {
+                  "trend": "Rising carbon prices",
+                  "why_act_now": "Early adoption helps evade future surcharges.",
+                  "estimated_customer_savings_eur": 350
+                }
+              ],
+              "urgency_factors": [
+                {
+                  "label": "Carbon pricing increase",
+                  "detail": "Projected to add up to 30% to electricity bills by 2030.",
+                  "estimated_customer_savings_eur": 250
+                }
+              ]
+            },
+            "offers": [
+              {
+                "tier": "Starter",
+                "assets": [
+                  "3 kWp solar PV system"
+                ],
+                "why": "Ideal for small households to cover basic daylight energy needs.",
+                "upfront_cost_eur": 6000,
+                "annual_savings_eur": 600,
+                "payback_years": 10,
+                "co2_reduction_kg": 1100
+              },
+              {
+                "tier": "Recommended",
+                "assets": [
+                  "5 kWp solar PV system",
+                  "battery storage"
+                ],
+                "why": "Balances cost and energy independence, maximizes subsidy benefits.",
+                "upfront_cost_eur": 13000,
+                "annual_savings_eur": 1200,
+                "payback_years": 8,
+                "co2_reduction_kg": 1800
+              },
+              {
+                "tier": "Full Independence",
+                "assets": [
+                  "10 kWp solar PV system",
+                  "large battery storage"
+                ],
+                "why": "Achieves maximum self-sufficiency and long-term savings.",
+                "upfront_cost_eur": 20000,
+                "annual_savings_eur": 2000,
+                "payback_years": 7,
+                "co2_reduction_kg": 3800
+              }
+            ],
+            "financing": [
+              {
+                "offer_tier": "Starter",
+                "cash": {
+                  "total": 6000,
+                  "note": "Full payment required upfront, subsidy reduces cost by EUR 1,500."
+                },
+                "partial": {
+                  "upfront": 1500,
+                  "monthly": 100,
+                  "term_years": 5,
+                  "rate_pct": 3.5
+                },
+                "full_finance": {
+                  "monthly": 110,
+                  "term_years": 6,
+                  "total_cost": 6600
+                },
+                "subsidies_applied": [
+                  "KfW 270"
+                ],
+                "net_cost_after_subsidy": 4500
+              },
+              {
+                "offer_tier": "Recommended",
+                "cash": {
+                  "total": 13000,
+                  "note": "Subsidy reduces cost by EUR 3,000."
+                },
+                "partial": {
+                  "upfront": 3000,
+                  "monthly": 220,
+                  "term_years": 7,
+                  "rate_pct": 3.2
+                },
+                "full_finance": {
+                  "monthly": 240,
+                  "term_years": 8,
+                  "total_cost": 14400
+                },
+                "subsidies_applied": [
+                  "KfW 270"
+                ],
+                "net_cost_after_subsidy": 10000
+              },
+              {
+                "offer_tier": "Full Independence",
+                "cash": {
+                  "total": 20000,
+                  "note": "Maximum subsidy benefit lowers cost significantly by EUR 4,000."
+                },
+                "partial": {
+                  "upfront": 4000,
+                  "monthly": 350,
+                  "term_years": 10,
+                  "rate_pct": 3
+                },
+                "full_finance": {
+                  "monthly": 380,
+                  "term_years": 12,
+                  "total_cost": 22800
+                },
+                "subsidies_applied": [
+                  "KfW 270"
+                ],
+                "net_cost_after_subsidy": 16000
+              }
+            ]
+          },
+          "reportStatus": "ready",
+          "customerAge": "",
+          "customerConcerns": "",
+          "roofSearchQuery": "",
+          "roofSearchResult": "",
+          "roofSearchLat": "",
+          "roofSearchLng": "",
+          "roofSelectionMode": "manual",
+          "roofBuildingId": "",
+          "roofBuildingLabel": "",
+          "roofPolygon": [],
+          "roofFootprintAreaM2": "",
+          "roofSurfaceAreaM2": "",
+          "usableRoofPct": 75,
+          "usableRoofAreaM2": ""
+        },
+        {
+          "id": "customer-1775675995274",
+          "customerCode": "CLV-1WGQZI",
+          "address": "N6 8",
+          "postcode": "60311",
+          "productInterest": "Full bundle (solar + battery + heat pump)",
+          "householdSize": "",
+          "houseBuildYear": "",
+          "existingAssets": "None",
+          "monthlyEnergyBill": "98",
+          "budgetSignal": "",
+          "state": "Mecklenburg-Vorpommern",
+          "houseType": "Bungalow",
+          "roofType": "Steep pitch roof",
+          "floors": "1 floor",
+          "electricityUsageTime": "Balanced through the day",
+          "isOwner": null,
+          "roofDirection": "",
+          "existingHeating": "District heating",
+          "briefing": {
+            "market_context": {
+              "urgency_level": "Very urgent",
+              "urgency_summary": "With the 65% renewable heating regulation in effect and rising energy prices, timely action could prevent significant cost escalations.",
+              "energy_price_trend": "Energy prices in Hesse are projected to increase by 5-7% annually.",
+              "price_projection": {
+                "current_annual_cost_eur": 3377,
+                "year_2_annual_cost_eur": 3695,
+                "year_5_annual_cost_eur": 4280,
+                "year_10_annual_cost_eur": 5435,
+                "do_nothing_cost_increase_eur": 2058
+              },
+              "regulations": [
+                {
+                  "name": "GEG 65% Renewable Heating Rule",
+                  "timeline": "Effective now",
+                  "impact": "Requires heating systems to derive 65% of energy from renewables.",
+                  "estimated_customer_savings_eur": 500
+                }
+              ],
+              "subsidies": [
+                {
+                  "name": "KfW 270",
+                  "amount": "Low-interest loans",
+                  "estimated_customer_benefit_eur": 1500,
+                  "eligibility_fit": "Eligible for renewable energy projects.",
+                  "note": "Can be combined with other incentives."
+                },
+                {
+                  "name": "BAFA BEG",
+                  "amount": "Grants up to 35% of installation costs",
+                  "estimated_customer_benefit_eur": 7000,
+                  "eligibility_fit": "Eligible with heat pump installation.",
+                  "note": "Subject to application approval."
+                }
+              ],
+              "broader_trends": [
+                {
+                  "trend": "Shift towards decentralized energy solutions",
+                  "why_act_now": "Decreased reliance on grid helps mitigate future price volatility.",
+                  "estimated_customer_savings_eur": 1200
+                }
+              ],
+              "urgency_factors": [
+                {
+                  "label": "Avoid rising carbon costs",
+                  "detail": "Transitioning to renewables prevents future carbon tax expenses.",
+                  "estimated_customer_savings_eur": 300
+                }
+              ]
+            },
+            "offers": [
+              {
+                "tier": "Starter",
+                "assets": [
+                  "Solar panels (15 kWp)",
+                  "Battery storage (5 kWh)"
+                ],
+                "why": "Reduces reliance on grid electricity, significant savings and faster ROI with partial upgrade.",
+                "upfront_cost_eur": 15000,
+                "annual_savings_eur": 600,
+                "payback_years": 10,
+                "co2_reduction_kg": 2500
+              },
+              {
+                "tier": "Recommended",
+                "assets": [
+                  "Solar panels (35 kWp)",
+                  "Battery storage (10 kWh)",
+                  "Heat pump"
+                ],
+                "why": "Comprehensive package for maximum self-reliance and optimizes subsidy potential.",
+                "upfront_cost_eur": 35000,
+                "annual_savings_eur": 1600,
+                "payback_years": 12,
+                "co2_reduction_kg": 7000
+              },
+              {
+                "tier": "Full Independence",
+                "assets": [
+                  "Solar panels (47.25 kWp)",
+                  "Battery storage (15 kWh)",
+                  "Heat pump"
+                ],
+                "why": "Achieves near complete independence from energy price trends and maximizes renewable use.",
+                "upfront_cost_eur": 50000,
+                "annual_savings_eur": 2200,
+                "payback_years": 15,
+                "co2_reduction_kg": 9500
+              }
+            ],
+            "financing": [
+              {
+                "offer_tier": "Starter",
+                "cash": {
+                  "total": 15000,
+                  "note": "Full cash payment avoids interest."
+                },
+                "partial": {
+                  "upfront": 5000,
+                  "monthly": 125,
+                  "term_years": 8,
+                  "rate_pct": 3.5
+                },
+                "full_finance": {
+                  "monthly": 187,
+                  "term_years": 8,
+                  "total_cost": 17500
+                },
+                "subsidies_applied": [
+                  "KfW 270"
+                ],
+                "net_cost_after_subsidy": 13500
+              },
+              {
+                "offer_tier": "Recommended",
+                "cash": {
+                  "total": 35000,
+                  "note": "Consider subsidy applications to lower up-front costs."
+                },
+                "partial": {
+                  "upfront": 10000,
+                  "monthly": 243,
+                  "term_years": 10,
+                  "rate_pct": 3
+                },
+                "full_finance": {
+                  "monthly": 355,
+                  "term_years": 10,
+                  "total_cost": 42600
+                },
+                "subsidies_applied": [
+                  "KfW 270",
+                  "BAFA BEG"
+                ],
+                "net_cost_after_subsidy": 28000
+              },
+              {
+                "offer_tier": "Full Independence",
+                "cash": {
+                  "total": 50000,
+                  "note": "Maximize self-financing with subsidy reduction."
+                },
+                "partial": {
+                  "upfront": 15000,
+                  "monthly": 366,
+                  "term_years": 12,
+                  "rate_pct": 2.8
+                },
+                "full_finance": {
+                  "monthly": 445,
+                  "term_years": 12,
+                  "total_cost": 55000
+                },
+                "subsidies_applied": [
+                  "KfW 270",
+                  "BAFA BEG"
+                ],
+                "net_cost_after_subsidy": 42000
+              }
+            ]
+          },
+          "reportStatus": "ready",
+          "roofWidthM": "",
+          "roofDepthM": "",
+          "usableRoofPct": 100,
+          "customerAge": "56",
+          "roofImageName": "",
+          "roofImagePreview": "",
+          "roofSearchQuery": "N6 8, 68161, Mannheim",
+          "roofSearchResult": "Studierendenwerk, 8, N6, Innenstadt, Innenstadt/Jungbusch, Mannheim, Baden-Württemberg, 68161, Germany",
+          "roofSearchLat": 49.4844319,
+          "roofSearchLng": 8.4695856,
+          "roofSelectionMode": "manual",
+          "roofBuildingId": "manual-drawn",
+          "roofBuildingLabel": "Manual roof polygon",
+          "roofPolygon": [
+            {
+              "lat": 49.48451533180646,
+              "lng": 8.469502123769303
+            },
+            {
+              "lat": 49.484350553851804,
+              "lng": 8.46934480318069
+            },
+            {
+              "lat": 49.48430258041902,
+              "lng": 8.469476438775246
+            },
+            {
+              "lat": 49.48446110114843,
+              "lng": 8.469624127491045
+            }
+          ],
+          "roofFootprintAreaM2": 228,
+          "roofSurfaceAreaM2": 228,
+          "usableRoofAreaM2": 228,
+          "customerConcerns": ""
+        }
+      ]
+    }
+  ]
+}
