@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { registerUser, signInUser } from "../lib/api";
 
 const PRODUCT_OPTIONS = ["Solar", "Heat pump", "Battery storage", "Wall box"];
@@ -9,17 +9,6 @@ function normalizeProducts(products) {
   }
 
   return products.filter((product) => PRODUCT_OPTIONS.includes(product));
-}
-
-function createInventoryTemplate(products, existingInventory = {}) {
-  return products.reduce((inventory, product) => {
-    const current = existingInventory[product] || { availability: "", timeline: "" };
-    inventory[product] = {
-      availability: current.availability || "",
-      timeline: current.timeline || "",
-    };
-    return inventory;
-  }, {});
 }
 
 function InputField({ label, ...props }) {
@@ -39,19 +28,7 @@ export default function AuthPortal({ onAuthenticate }) {
   const [statusText, setStatusText] = useState("Sign in or create an account to open your CRM workspace.");
   const [signInForm, setSignInForm] = useState({ name: "", organisation: "" });
   const [createForm, setCreateForm] = useState({ name: "", organisation: "", products: [] });
-  const [createInventory, setCreateInventory] = useState({});
   const [submitting, setSubmitting] = useState(false);
-
-  useEffect(() => {
-    const normalizedProducts = normalizeProducts(createForm.products);
-
-    if (!normalizedProducts.length) {
-      setCreateInventory({});
-      return;
-    }
-
-    setCreateInventory((current) => createInventoryTemplate(normalizedProducts, current));
-  }, [createForm.products]);
 
   function toggleCreateProduct(product) {
     setCreateForm((current) => {
@@ -63,16 +40,6 @@ export default function AuthPortal({ onAuthenticate }) {
           : [...current.products, product],
       };
     });
-  }
-
-  function updateCreateInventory(product, field, value) {
-    setCreateInventory((current) => ({
-      ...current,
-      [product]: {
-        ...current[product],
-        [field]: value,
-      },
-    }));
   }
 
   async function handleSignInSubmit(event) {
@@ -111,7 +78,7 @@ export default function AuthPortal({ onAuthenticate }) {
         name,
         organisation,
         products: selectedProducts,
-        inventory: createInventoryTemplate(selectedProducts, createInventory),
+        inventory: {},
       });
       setStatusText(`Account created for ${user.name}. Opening your customer workspace.`);
       onAuthenticate(user);
@@ -134,8 +101,8 @@ export default function AuthPortal({ onAuthenticate }) {
             Start in your installer workspace, then move into customers and briefings.
           </h2>
           <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-600 sm:text-base">
-            Sign in to open your customer list. New reps can create an account, define their
-            inventory, and then land directly in the logged-in CRM layout.
+            Sign in to open your customer list. New reps can create an account and land directly
+            in the logged-in CRM layout.
           </p>
 
           <div className="mt-8 rounded-3xl border border-brand-line bg-white/90 px-5 py-4 text-sm text-slate-700">
@@ -161,7 +128,7 @@ export default function AuthPortal({ onAuthenticate }) {
               type="button"
               onClick={() => {
                 setMode("create");
-                setStatusText("Create your account, define inventory, and continue into customers.");
+                setStatusText("Create your account and continue into customers.");
               }}
               className={`rounded-full px-5 py-3 text-sm font-semibold transition ${
                 mode === "create"
@@ -266,48 +233,6 @@ export default function AuthPortal({ onAuthenticate }) {
                   })}
                 </div>
               </fieldset>
-
-              {Object.keys(createInventory).length ? (
-                <div className="rounded-3xl border border-brand-line bg-brand-soft/70 p-5">
-                  <div className="mb-4">
-                    <h4 className="text-base font-semibold text-slate-900">
-                      Inventory availability and timeline
-                    </h4>
-                    <p className="mt-1 text-sm leading-6 text-slate-600">
-                      Set your current stock position before entering the customer workspace.
-                    </p>
-                  </div>
-                  <div className="grid gap-4">
-                    {Object.entries(createInventory).map(([product, values]) => (
-                      <article key={product} className="rounded-2xl border border-slate-200 bg-white p-4">
-                        <h5 className="text-base font-semibold text-slate-900">{product}</h5>
-                        <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                          <InputField
-                            label="Current availability"
-                            type="text"
-                            placeholder="In stock, low stock, out of stock"
-                            value={values.availability}
-                            onChange={(event) =>
-                              updateCreateInventory(product, "availability", event.target.value)
-                            }
-                            required
-                          />
-                          <InputField
-                            label="Timeline for inventory"
-                            type="text"
-                            placeholder="Available now, 2 weeks, next month"
-                            value={values.timeline}
-                            onChange={(event) =>
-                              updateCreateInventory(product, "timeline", event.target.value)
-                            }
-                            required
-                          />
-                        </div>
-                      </article>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
 
               <button
                 disabled={submitting}

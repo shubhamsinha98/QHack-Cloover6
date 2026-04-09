@@ -1,6 +1,7 @@
 import { createServer } from "node:http";
 import { randomUUID } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -8,7 +9,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DATA_DIR = path.join(__dirname, "data");
 const DB_PATH = path.join(DATA_DIR, "cloover-db.json");
-const PORT = Number(process.env.CLOOVER_API_PORT || 8787);
+const DIST_DIR = path.join(__dirname, "dist");
+const PORT = Number(process.env.PORT || process.env.CLOOVER_API_PORT || 8787);
+const HOST = process.env.HOST || "0.0.0.0";
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY || "";
 
 const emptyDb = { users: [] };
 
@@ -43,6 +47,13 @@ function sendJson(res, statusCode, payload) {
   res.end(JSON.stringify(payload));
 }
 
+function sendText(res, statusCode, payload, contentType = "text/plain; charset=utf-8") {
+  res.writeHead(statusCode, {
+    "Content-Type": contentType,
+  });
+  res.end(payload);
+}
+
 function sanitizeUser(user) {
   return {
     ...user,
@@ -69,6 +80,90 @@ function normalize(value) {
   return String(value || "").trim().toLowerCase();
 }
 
+async function callOpenAI({ systemPrompt, userMessage, messages }) {
+  if (!OPENAI_API_KEY) {
+    throw new Error("Server is missing OPENAI_API_KEY.");
+  }
+
+  const assembledMessages = [
+    { role: "system", content: systemPrompt },
+    ...(Array.isArray(messages)
+      ? messages
+      : [{ role: "user", content: userMessage }]),
+  ];
+
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${OPENAI_API_KEY}`,
+    },
+    body: JSON.stringify({
+      model: "gpt-4o",
+      messages: assembledMessages,
+    }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data?.error?.message || "OpenAI request failed.");
+  }
+
+  return data?.choices?.[0]?.message?.content || "";
+}
+
+function getContentType(filePath) {
+  const ext = path.extname(filePath).toLowerCase();
+
+  switch (ext) {
+    case ".html":
+      return "text/html; charset=utf-8";
+    case ".js":
+      return "application/javascript; charset=utf-8";
+    case ".css":
+      return "text/css; charset=utf-8";
+    case ".json":
+      return "application/json; charset=utf-8";
+    case ".svg":
+      return "image/svg+xml";
+    case ".png":
+      return "image/png";
+    case ".jpg":
+    case ".jpeg":
+      return "image/jpeg";
+    case ".ico":
+      return "image/x-icon";
+    default:
+      return "application/octet-stream";
+  }
+}
+
+async function serveStaticAsset(res, pathname) {
+  if (!existsSync(DIST_DIR)) {
+    sendText(res, 404, "Frontend build not found.");
+    return true;
+  }
+
+  const safePath = pathname === "/" ? "/index.html" : pathname;
+  const filePath = path.join(DIST_DIR, safePath);
+
+  try {
+    const file = await readFile(filePath);
+    sendText(res, 200, file, getContentType(filePath));
+    return true;
+  } catch {
+    try {
+      const indexFile = await readFile(path.join(DIST_DIR, "index.html"));
+      sendText(res, 200, indexFile, "text/html; charset=utf-8");
+      return true;
+    } catch {
+      sendText(res, 404, "Frontend build not found.");
+      return true;
+    }
+  }
+}
+
 createServer(async (req, res) => {
   if (!req.url) {
     sendJson(res, 400, { error: "Missing request URL." });
@@ -86,6 +181,17 @@ createServer(async (req, res) => {
   try {
     if (req.method === "GET" && pathname === "/api/health") {
       sendJson(res, 200, { ok: true });
+      return;
+    }
+
+    if (req.method === "POST" && pathname === "/api/openai/chat") {
+      const body = await parseBody(req);
+      const content = await callOpenAI({
+        systemPrompt: body.systemPrompt,
+        userMessage: body.userMessage,
+        messages: body.messages,
+      });
+      sendJson(res, 200, { content });
       return;
     }
 
@@ -159,11 +265,16 @@ createServer(async (req, res) => {
       return;
     }
 
+    if (!pathname.startsWith("/api")) {
+      await serveStaticAsset(res, pathname);
+      return;
+    }
+
     sendJson(res, 404, { error: "Not found." });
   } catch (error) {
     console.error(error);
     sendJson(res, 500, { error: error.message || "Server error." });
   }
-}).listen(PORT, "127.0.0.1", () => {
-  console.log(`Cloover API listening on http://127.0.0.1:${PORT}`);
+}).listen(PORT, HOST, () => {
+  console.log(`Cloover web server listening on http://${HOST}:${PORT}`);
 });

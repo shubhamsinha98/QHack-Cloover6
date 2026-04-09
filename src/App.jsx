@@ -388,6 +388,27 @@ export default function App() {
     await openCustomerInWorkspace(customer, "reports");
   }
 
+  async function handleDeleteCustomerReport(customerId) {
+    if (!currentUser) {
+      return;
+    }
+
+    const nextCustomers = (currentUser.customers || []).filter((item) => item.id !== customerId);
+
+    await persistUserUpdate({
+      ...currentUser,
+      customers: nextCustomers,
+    });
+
+    if (selectedCustomerId === customerId) {
+      setSelectedCustomerId(null);
+      setLeadData(initialLeadData);
+      setBriefing(null);
+      setBriefingError("");
+      setLoading(false);
+    }
+  }
+
   async function handleRegenerateCustomerReport(updatedLeadData) {
     if (!selectedCustomerId) {
       return;
@@ -734,6 +755,7 @@ export default function App() {
                     briefing={briefing}
                     onSelectCustomer={handleCustomerBriefing}
                     onBackToList={handleNewLead}
+                    onDeleteCustomerReport={handleDeleteCustomerReport}
                   />
                 ) : (
                   <BriefingWorkspace
@@ -747,6 +769,7 @@ export default function App() {
                     onBackToList={handleNewLead}
                     onRetry={() => handleCustomerBriefing(selectedCustomer)}
                     onRegenerateCustomer={handleRegenerateCustomerReport}
+                    onDeleteCustomerReport={handleDeleteCustomerReport}
                   />
                 )}
               </div>

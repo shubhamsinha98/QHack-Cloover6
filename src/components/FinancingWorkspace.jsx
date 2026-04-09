@@ -7,6 +7,7 @@ export default function FinancingWorkspace({
   briefing,
   onSelectCustomer,
   onBackToList,
+  onDeleteCustomerReport,
 }) {
   if (!selectedCustomer || !briefing) {
     return (
@@ -64,6 +65,7 @@ export default function FinancingWorkspace({
       leadData={leadData}
       briefing={briefing}
       onBack={onBackToList}
+      onDelete={() => onDeleteCustomerReport(selectedCustomer.id)}
     />
   );
 }

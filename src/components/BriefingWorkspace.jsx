@@ -12,6 +12,7 @@ export default function BriefingWorkspace({
   onBackToList,
   onRetry,
   onRegenerateCustomer,
+  onDeleteCustomerReport,
 }) {
   if (!selectedCustomer && !loading && !error) {
     return (
@@ -112,6 +113,17 @@ export default function BriefingWorkspace({
         loading={loading}
         onRegenerate={onRegenerateCustomer}
       />
+      {selectedCustomer ? (
+        <div className="flex justify-end">
+          <button
+            type="button"
+            onClick={() => onDeleteCustomerReport(selectedCustomer.id)}
+            className="rounded-full border border-rose-200 bg-white px-4 py-2 text-sm font-semibold text-rose-700 transition hover:bg-rose-50"
+          >
+            Delete customer report
+          </button>
+        </div>
+      ) : null}
       <Briefing
         leadData={leadData}
         briefing={briefing}

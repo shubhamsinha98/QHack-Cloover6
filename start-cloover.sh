@@ -10,6 +10,10 @@ if [ ! -f ".env" ]; then
   exit 1
 fi
 
+set -a
+. ./.env
+set +a
+
 if [ ! -d "node_modules" ] || [ ! -x "node_modules/.bin/vite" ]; then
   echo "Installing frontend dependencies..."
   npm install || exit 1

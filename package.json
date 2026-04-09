@@ -8,7 +8,8 @@
     "dev": "vite",
     "dev:open": "zsh ./start-cloover.sh",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "node server.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",

@@ -206,7 +206,7 @@ function getMaxFinanceTerm(customerAge) {
   return Math.max(Math.min(25, 80 - age), 1);
 }
 
-export default function FinancingReport({ customer, leadData, briefing, onBack }) {
+export default function FinancingReport({ customer, leadData, briefing, onBack, onDelete }) {
   const [selectedTier, setSelectedTier] = useState("");
   const [paymentMode, setPaymentMode] = useState("upfront");
   const [partialUpfront, setPartialUpfront] = useState("");
@@ -340,13 +340,22 @@ export default function FinancingReport({ customer, leadData, briefing, onBack }
         title={`Finance report for ${customer.customerCode}`}
         description={`Customer ID ${customer.customerCode}. Use this quote builder to walk through payment options for ${leadData.productInterest?.toLowerCase() || "the selected offer"}.`}
         action={
-          <button
-            type="button"
-            onClick={onBack}
-            className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-600"
-          >
-            ← Back to finance reports
-          </button>
+          <div className="flex flex-wrap justify-end gap-3">
+            <button
+              type="button"
+              onClick={onDelete}
+              className="rounded-full border border-rose-200 bg-white px-4 py-3 text-sm font-semibold text-rose-700 transition hover:bg-rose-50"
+            >
+              Delete customer report
+            </button>
+            <button
+              type="button"
+              onClick={onBack}
+              className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-600"
+            >
+              ← Back to finance reports
+            </button>
+          </div>
         }
       />
 

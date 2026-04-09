@@ -1,6 +1,12 @@
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
+
 const API_HEADERS = {
   "Content-Type": "application/json",
 };
+
+function apiUrl(pathname) {
+  return `${API_BASE_URL}${pathname}`;
+}
 
 async function parseApiResponse(res) {
   const data = await res.json();
@@ -13,7 +19,7 @@ async function parseApiResponse(res) {
 }
 
 export async function signInUser(credentials) {
-  const res = await fetch("/api/auth/sign-in", {
+  const res = await fetch(apiUrl("/api/auth/sign-in"), {
     method: "POST",
     headers: API_HEADERS,
     body: JSON.stringify(credentials),
@@ -24,7 +30,7 @@ export async function signInUser(credentials) {
 }
 
 export async function registerUser(payload) {
-  const res = await fetch("/api/auth/register", {
+  const res = await fetch(apiUrl("/api/auth/register"), {
     method: "POST",
     headers: API_HEADERS,
     body: JSON.stringify(payload),
@@ -35,7 +41,7 @@ export async function registerUser(payload) {
 }
 
 export async function saveUser(user) {
-  const res = await fetch(`/api/users/${user.id}`, {
+  const res = await fetch(apiUrl(`/api/users/${user.id}`), {
     method: "PUT",
     headers: API_HEADERS,
     body: JSON.stringify(user),

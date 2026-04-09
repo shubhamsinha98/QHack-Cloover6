@@ -1,21 +1,15 @@
-const API_URL = "https://api.openai.com/v1/chat/completions";
-const API_KEY = import.meta.env.VITE_OPENAI_API_KEY || "YOUR_KEY_HERE";
-
-function assertApiKey() {
-  if (!API_KEY || API_KEY === "YOUR_KEY_HERE") {
-    throw new Error("Add your OpenAI API key in VITE_OPENAI_API_KEY before generating content.");
-  }
-}
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
+const API_URL = `${API_BASE_URL}/api/openai/chat`;
 
 async function parseResponse(res) {
   const data = await res.json();
 
   if (!res.ok) {
-    const message = data?.error?.message || "OpenAI request failed";
+    const message = data?.error || data?.message || "OpenAI request failed";
     throw new Error(message);
   }
 
-  return data.choices?.[0]?.message?.content || "";
+  return data.content || "";
 }
 
 function extractJsonCandidate(rawText) {
@@ -56,20 +50,14 @@ export function parseModelJson(rawText) {
 }
 
 export async function callGPT(systemPrompt, userMessage) {
-  assertApiKey();
-
   const res = await fetch(API_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${API_KEY}`,
     },
     body: JSON.stringify({
-      model: "gpt-4o",
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: userMessage },
-      ],
+      systemPrompt,
+      userMessage,
     }),
   });
 
@@ -77,17 +65,14 @@ export async function callGPT(systemPrompt, userMessage) {
 }
 
 export async function callGPTMultiTurn(systemPrompt, messages) {
-  assertApiKey();
-
   const res = await fetch(API_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${API_KEY}`,
     },
     body: JSON.stringify({
-      model: "gpt-4o",
-      messages: [{ role: "system", content: systemPrompt }, ...messages],
+      systemPrompt,
+      messages,
     }),
   });
 
